@@ -3,13 +3,13 @@
     <!-- 搜索与操作栏 -->
     <el-card class="toolbar-card">
       <el-row :gutter="20" align="middle">
-        <el-col :span="6">
+        <el-col :span="3">
           <el-input v-model="searchForm.courseName" placeholder="课程名称" clearable size="default" />
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           <el-input v-model="searchForm.courseNo" placeholder="课程编号" clearable size="default" />
         </el-col>
-        <el-col :span="5">
+        <el-col :span="2">
           <el-input v-model="searchForm.teacher" placeholder="授课教师" clearable size="default" />
         </el-col>
         <el-col :span="8">

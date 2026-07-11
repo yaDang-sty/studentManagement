@@ -6,6 +6,7 @@ import CourseList from "../views/CourseList.vue";
 import ScoreList from "../views/ScoreList.vue";
 import ScoreStats from "../views/ScoreStats.vue";
 import UserList from "../views/UserList.vue";
+import AccountList from "../views/AccountList.vue";
 
 const routes = [
   { path: "/", redirect: "/login" },
@@ -46,6 +47,12 @@ const routes = [
     component: UserList,
     meta: { requiresAuth: true, roles: ["TECH_ADMIN"] },
   },
+  {
+    path: "/accounts",
+    name: "AccountList",
+    component: AccountList,
+    meta: { requiresAuth: true, roles: ["TECH_ADMIN"] },
+  },
 ];
 
 const router = createRouter({
@@ -68,11 +75,9 @@ router.beforeEach((to, from, next) => {
     return;
   }
 
-  // 权限检查
   if (to.meta.roles && user) {
     const userType = user.userType || "VISITOR";
     if (!to.meta.roles.includes(userType)) {
-      // 没有权限，跳转到首页
       next("/score");
       return;
     }

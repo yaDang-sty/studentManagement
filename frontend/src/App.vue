@@ -9,7 +9,7 @@
           <el-menu-item v-if="hasRole('TECH_ADMIN','BUSINESS_ADMIN')" index="/course"><el-icon><Reading /></el-icon><span>课程管理</span></el-menu-item>
           <el-menu-item v-if="hasRole('TECH_ADMIN','BUSINESS_ADMIN','VISITOR')" index="/score"><el-icon><Edit /></el-icon><span>成绩管理</span></el-menu-item>
           <el-menu-item v-if="hasRole('TECH_ADMIN','BUSINESS_ADMIN','VISITOR')" index="/stats"><el-icon><TrendCharts /></el-icon><span>成绩统计</span></el-menu-item>
-          <el-menu-item v-if="hasRole('TECH_ADMIN')" index="/users"><el-icon><Setting /></el-icon><span>权限管理</span></el-menu-item>
+          <el-sub-menu v-if="hasRole('TECH_ADMIN')" index="/users-parent"><template #title><el-icon><Setting /></el-icon><span>权限管理</span></template><el-menu-item index="/users"><el-icon><User /></el-icon><span>角色维护</span></el-menu-item><el-menu-item index="/accounts"><el-icon><Key /></el-icon><span>登录账户维护</span></el-menu-item></el-sub-menu>
         </el-menu>
       </el-aside>
       <div class="top-right-bar">
@@ -28,7 +28,7 @@
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
-import { User, HomeFilled, Reading, Edit, TrendCharts, Setting } from "@element-plus/icons-vue";
+import { User, HomeFilled, Reading, Edit, TrendCharts, Setting, Key } from "@element-plus/icons-vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -52,7 +52,8 @@ const pageTitle = computed(() => {
     "/course": "课程管理",
     "/score": "成绩管理",
     "/stats": "成绩统计",
-    "/users": "权限管理",
+    "/users": "角色维护",
+    "/accounts": "登录账户维护",
   };
   return map[route.path] || "教务管理系统";
 });

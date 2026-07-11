@@ -65,13 +65,13 @@
         <span style="font-weight: bold">🔍 查询成绩</span>
       </template>
       <el-row :gutter="20" align="middle">
-        <el-col :span="6">
+        <el-col :span="3">
           <el-input v-model="queryStudentNo" placeholder="按学号查询" clearable style="width: 100%" />
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-input v-model="queryCourseNo" placeholder="按课程编号查询" clearable style="width: 100%" />
         </el-col>
-        <el-col :span="6">
+        <el-col :span="3">
           <el-input v-model="queryKeyword" placeholder="按姓名/课程名搜索" clearable style="width: 100%" />
         </el-col>
         <el-col :span="6">

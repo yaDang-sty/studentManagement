@@ -89,8 +89,20 @@ public class StudentService {
 
     public PageResult<Student> search(String keyword, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize);
-        Page<Student> byName = studentRepository.findByNameContaining(keyword, pageable);
-        return new PageResult<>(byName.getContent(), byName.getTotalElements(), page, pageSize);
+        if (keyword == null || keyword.trim().isEmpty()) {
+            Page<Student> p = studentRepository.findAll(pageable);
+            return new PageResult<>(p.getContent(), p.getTotalElements(), page, pageSize);
+        }
+        String kw = keyword.trim();
+        Specification<Student> spec = (root, query, cb) -> {
+            String pattern = "%" + kw + "%";
+            return cb.or(
+                cb.like(root.get("name"), pattern),
+                cb.like(root.get("studentNo"), pattern)
+            );
+        };
+        Page<Student> p = studentRepository.findAll(spec, pageable);
+        return new PageResult<>(p.getContent(), p.getTotalElements(), page, pageSize);
     }
 
     public PageResult<Student> searchMultiple(String name, String studentNo, String major, String grade, String studentClass, int page, int pageSize) {

@@ -3,13 +3,13 @@
     <!-- 搜索与操作栏 -->
     <el-card class="toolbar-card">
       <el-row :gutter="20" align="middle">
-        <el-col :span="6">
+        <el-col :span="3">
           <el-input v-model="searchForm.studentName" placeholder="学生姓名" clearable size="default" />
         </el-col>
-        <el-col :span="5">
+        <el-col :span="3">
           <el-input v-model="searchForm.building" placeholder="楼栋" clearable size="default" />
         </el-col>
-        <el-col :span="5">
+        <el-col :span="2">
           <el-input v-model="searchForm.room" placeholder="房间号" clearable size="default" />
         </el-col>
         <el-col :span="8">
