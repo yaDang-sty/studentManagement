@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.config;
+package com.studentmanagement.config;
 
 import com.studentmanagement.util.JwtUtil;
 import jakarta.annotation.PostConstruct;
@@ -14,7 +14,7 @@ public class JwtConfig {
     @PostConstruct
     public void init() {
         JwtUtil.setExpiration(expirationMs);
-        System.out.println("JWT 杩囨湡鏃堕棿宸茶缃? " + expirationMs + "ms (" + (expirationMs / 3600000) + "灏忔椂)");
+        System.out.println("JWT 过期时间已设置: " + expirationMs + "ms (" + (expirationMs / 3600000) + "小时)");
     }
 }
 

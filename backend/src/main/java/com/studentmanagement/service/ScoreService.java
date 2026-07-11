@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.service;
+package com.studentmanagement.service;
 
 import com.studentmanagement.entity.PageResult;
 import com.studentmanagement.entity.Score;
@@ -31,7 +31,7 @@ public class ScoreService {
 
     public Score update(Long id, Score score) {
         Score existing = scoreRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("鎴愮哗璁板綍涓嶅瓨鍦紝ID: " + id));
+                .orElseThrow(() -> new RuntimeException("成绩记录不存在，ID: " + id));
         existing.setStudentNo(score.getStudentNo());
         existing.setStudentName(score.getStudentName());
         existing.setCourseNo(score.getCourseNo());

@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.util;
+package com.studentmanagement.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

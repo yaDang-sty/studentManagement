@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.entity;
+package com.studentmanagement.entity;
 
 public class LoginRequest {
     private String loginType;  // "studentNo" or "phone"

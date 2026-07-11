@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.service;
+package com.studentmanagement.service;
 
 import com.studentmanagement.entity.PageResult;
 import com.studentmanagement.entity.Dormitory;
@@ -31,7 +31,7 @@ public class DormitoryService {
 
     public Dormitory update(Long id, Dormitory dormitory) {
         Dormitory existing = dormitoryRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("瀹胯垗璁板綍涓嶅瓨鍦紝ID: " + id));
+                .orElseThrow(() -> new RuntimeException("宿舍记录不存在，ID: " + id));
         existing.setStudentNo(dormitory.getStudentNo());
         existing.setStudentName(dormitory.getStudentName());
         existing.setBuilding(dormitory.getBuilding());

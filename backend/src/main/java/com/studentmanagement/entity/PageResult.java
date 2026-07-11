@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.entity;
+package com.studentmanagement.entity;
 
 import java.util.List;
 

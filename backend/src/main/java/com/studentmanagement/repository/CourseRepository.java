@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.repository;
+package com.studentmanagement.repository;
 
 import com.studentmanagement.entity.Course;
 import org.springframework.data.domain.Page;

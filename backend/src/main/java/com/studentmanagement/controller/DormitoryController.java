@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.controller;
+package com.studentmanagement.controller;
 
 import com.studentmanagement.entity.PageResult;
 import com.studentmanagement.entity.Dormitory;
@@ -38,7 +38,7 @@ public class DormitoryController {
     public ResponseEntity<?> create(@Valid @RequestBody Dormitory dormitory) {
         if (dormitoryService.existsByStudentNo(dormitory.getStudentNo())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("message", "璇ュ鐢熷凡鍒嗛厤瀹胯垗"));
+                    .body(Map.of("message", "该学生已分配宿舍"));
         }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(dormitoryService.save(dormitory));
@@ -48,7 +48,7 @@ public class DormitoryController {
     public ResponseEntity<?> update(@Valid @RequestBody Dormitory dormitory) {
         try {
             Long id = dormitory.getId();
-            if (id == null) return ResponseEntity.badRequest().body(Map.of("message", "缂哄皯ID"));
+            if (id == null) return ResponseEntity.badRequest().body(Map.of("message", "缺少ID"));
             return ResponseEntity.ok(dormitoryService.update(id, dormitory));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", e.getMessage()));
@@ -59,9 +59,9 @@ public class DormitoryController {
     public ResponseEntity<?> delete(@RequestBody Map<String, Long> body) {
         try {
             dormitoryService.deleteById(body.get("id"));
-            return ResponseEntity.ok(Map.of("message", "鍒犻櫎鎴愬姛"));
+            return ResponseEntity.ok(Map.of("message", "删除成功"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "瀹胯垗璁板綍涓嶅瓨鍦?));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "宿舍记录不存在"));
         }
     }
 

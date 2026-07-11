@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.entity;
+package com.studentmanagement.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -15,19 +15,19 @@ public class Dormitory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "瀛﹀彿涓嶈兘涓虹┖")
+    @NotBlank(message = "学号不能为空")
     @Column(nullable = false, length = 20)
     private String studentNo;
 
-    @NotBlank(message = "濮撳悕涓嶈兘涓虹┖")
+    @NotBlank(message = "姓名不能为空")
     @Column(nullable = false, length = 50)
     private String studentName;
 
-    @NotBlank(message = "妤兼爧涓嶈兘涓虹┖")
+    @NotBlank(message = "楼栋不能为空")
     @Column(nullable = false, length = 50)
     private String building;
 
-    @NotBlank(message = "鎴块棿鍙蜂笉鑳戒负绌?)
+    @NotBlank(message = "房间号不能为空")
     @Column(nullable = false, length = 20)
     private String room;
 

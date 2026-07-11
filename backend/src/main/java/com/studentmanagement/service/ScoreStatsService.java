@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.service;
+package com.studentmanagement.service;
 
 import com.studentmanagement.entity.ClassStatsItem;
 import com.studentmanagement.entity.Score;

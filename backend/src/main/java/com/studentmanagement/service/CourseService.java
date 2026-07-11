@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.service;
+package com.studentmanagement.service;
 
 import com.studentmanagement.entity.PageResult;
 import com.studentmanagement.entity.Course;
@@ -31,7 +31,7 @@ public class CourseService {
 
     public Course update(Long id, Course course) {
         Course existing = courseRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("璇剧▼涓嶅瓨鍦紝ID: " + id));
+                .orElseThrow(() -> new RuntimeException("课程不存在，ID: " + id));
         existing.setCourseNo(course.getCourseNo());
         existing.setCourseName(course.getCourseName());
         existing.setTeacher(course.getTeacher());

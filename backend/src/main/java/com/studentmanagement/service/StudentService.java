@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.service;
+package com.studentmanagement.service;
 
 import com.studentmanagement.entity.PageResult;
 import com.studentmanagement.entity.Student;
@@ -33,7 +33,7 @@ public class StudentService {
 
     public Student update(Long id, Student student) {
         Student existing = studentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("瀛︾敓涓嶅瓨鍦紝ID: " + id));
+                .orElseThrow(() -> new RuntimeException("学生不存在，ID: " + id));
         existing.setName(student.getName());
         existing.setStudentNo(student.getStudentNo());
         existing.setGender(student.getGender());
@@ -54,7 +54,8 @@ public class StudentService {
     public PageResult<Student> search(String keyword, int page, int pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize);
         Page<Student> byName = studentRepository.findByNameContaining(keyword, pageable);
-        // 鐢ㄧ涓€涓垎椤电粨鏋滆繑鍥?        return new PageResult<>(byName.getContent(), byName.getTotalElements(), page, pageSize);
+        // 用第一个分页结果返回
+        return new PageResult<>(byName.getContent(), byName.getTotalElements(), page, pageSize);
     }
 
     public boolean existsByStudentNo(String studentNo) {

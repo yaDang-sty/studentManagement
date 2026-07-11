@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.config;
+package com.studentmanagement.config;
 
 import com.studentmanagement.util.JwtUtil;
 import jakarta.servlet.*;

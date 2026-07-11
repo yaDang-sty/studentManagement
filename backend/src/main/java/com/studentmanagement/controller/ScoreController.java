@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.controller;
+package com.studentmanagement.controller;
 
 import com.studentmanagement.entity.PageResult;
 import com.studentmanagement.entity.Score;
@@ -35,7 +35,7 @@ public class ScoreController {
     public ResponseEntity<?> update(@Valid @RequestBody Score score) {
         try {
             Long id = score.getId();
-            if (id == null) return ResponseEntity.badRequest().body(Map.of("message", "缂哄皯鎴愮哗ID"));
+            if (id == null) return ResponseEntity.badRequest().body(Map.of("message", "缺少成绩ID"));
             return ResponseEntity.ok(scoreService.update(id, score));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", e.getMessage()));
@@ -46,9 +46,9 @@ public class ScoreController {
     public ResponseEntity<?> delete(@RequestBody Map<String, Long> body) {
         try {
             scoreService.deleteById(body.get("id"));
-            return ResponseEntity.ok(Map.of("message", "鍒犻櫎鎴愬姛"));
+            return ResponseEntity.ok(Map.of("message", "删除成功"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "鎴愮哗璁板綍涓嶅瓨鍦?));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "成绩记录不存在"));
         }
     }
 
@@ -72,7 +72,7 @@ public class ScoreController {
         if (courseNo != null && !courseNo.isEmpty()) {
             return ResponseEntity.ok(scoreService.findByCourseNo(courseNo, page, pageSize));
         }
-        return ResponseEntity.badRequest().body(Map.of("message", "璇锋彁渚涘鍙锋垨璇剧▼缂栧彿"));
+        return ResponseEntity.badRequest().body(Map.of("message", "请提供学号或课程编号"));
     }
 }
 

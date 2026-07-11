@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.controller;
+package com.studentmanagement.controller;
 
 import com.studentmanagement.entity.LoginRequest;
 import com.studentmanagement.entity.LoginResponse;
@@ -20,7 +20,7 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
         if (request.getPassword() == null || request.getPassword().isEmpty()) {
-            return ResponseEntity.ok(new LoginResponse(false, "瀵嗙爜涓嶈兘涓虹┖"));
+            return ResponseEntity.ok(new LoginResponse(false, "密码不能为空"));
         }
 
         String loginType = request.getLoginType() != null ? request.getLoginType() : "studentNo";
@@ -28,29 +28,29 @@ public class AuthController {
         if ("phone".equals(loginType)) {
             String phone = request.getPhone();
             if (phone == null || phone.isEmpty()) {
-                return ResponseEntity.ok(new LoginResponse(false, "鎵嬫満鍙蜂笉鑳戒负绌?));
+                return ResponseEntity.ok(new LoginResponse(false, "手机号不能为空"));
             }
             return studentRepository.findByPhoneAndPassword(phone, request.getPassword())
                     .map(student -> {
-                        LoginResponse resp = new LoginResponse(true, "鐧诲綍鎴愬姛");
+                        LoginResponse resp = new LoginResponse(true, "登录成功");
                         resp.setToken(JwtUtil.generateToken(student.getStudentNo(), student.getName()));
                         resp.setStudent(StudentInfo.fromStudent(student));
                         return ResponseEntity.ok(resp);
                     })
-                    .orElse(ResponseEntity.ok(new LoginResponse(false, "鎵嬫満鍙锋垨瀵嗙爜閿欒")));
+                    .orElse(ResponseEntity.ok(new LoginResponse(false, "手机号或密码错误")));
         } else {
             String studentNo = request.getStudentNo();
             if (studentNo == null || studentNo.isEmpty()) {
-                return ResponseEntity.ok(new LoginResponse(false, "瀛﹀彿涓嶈兘涓虹┖"));
+                return ResponseEntity.ok(new LoginResponse(false, "学号不能为空"));
             }
             return studentRepository.findByStudentNoAndPassword(studentNo, request.getPassword())
                     .map(student -> {
-                        LoginResponse resp = new LoginResponse(true, "鐧诲綍鎴愬姛");
+                        LoginResponse resp = new LoginResponse(true, "登录成功");
                         resp.setToken(JwtUtil.generateToken(student.getStudentNo(), student.getName()));
                         resp.setStudent(StudentInfo.fromStudent(student));
                         return ResponseEntity.ok(resp);
                     })
-                    .orElse(ResponseEntity.ok(new LoginResponse(false, "瀛﹀彿鎴栧瘑鐮侀敊璇?)));
+                    .orElse(ResponseEntity.ok(new LoginResponse(false, "学号或密码错误")));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.controller;
+package com.studentmanagement.controller;
 
 import com.studentmanagement.entity.PageResult;
 import com.studentmanagement.entity.Student;
@@ -38,7 +38,7 @@ public class StudentController {
     public ResponseEntity<?> create(@Valid @RequestBody Student student) {
         if (studentService.existsByStudentNo(student.getStudentNo())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Map.of("message", "瀛﹀彿宸插瓨鍦?));
+                    .body(Map.of("message", "学号已存在"));
         }
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(studentService.save(student));
@@ -49,7 +49,7 @@ public class StudentController {
         try {
             Long id = student.getId();
             if (id == null) {
-                return ResponseEntity.badRequest().body(Map.of("message", "缂哄皯瀛︾敓ID"));
+                return ResponseEntity.badRequest().body(Map.of("message", "缺少学生ID"));
             }
             return ResponseEntity.ok(studentService.update(id, student));
         } catch (RuntimeException e) {
@@ -63,10 +63,10 @@ public class StudentController {
         Long id = body.get("id");
         try {
             studentService.deleteById(id);
-            return ResponseEntity.ok(Map.of("message", "鍒犻櫎鎴愬姛"));
+            return ResponseEntity.ok(Map.of("message", "删除成功"));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of("message", "瀛︾敓涓嶅瓨鍦?));
+                    .body(Map.of("message", "学生不存在"));
         }
     }
 

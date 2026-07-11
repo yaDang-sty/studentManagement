@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="page">
     <!-- 操作卡片：录入成绩 -->
     <el-card class="toolbar-card">
@@ -301,8 +301,9 @@ const handleQuery = async () => {
   if (queryStudentNo.value.trim()) {
     loading.value = true;
     try {
-      const res = await api.post("/score/query", { studentNo: queryStudentNo.value.trim() });
-      list.value = res.data;
+      const res = await api.post("/score/query", { studentNo: queryStudentNo.value.trim(), page: currentPage.value, pageSize: pageSize.value });
+      list.value = res.data.records;
+      total.value = res.data.total;
     } catch { ElMessage.error("查询失败") }
     finally { loading.value = false }
     return;
@@ -310,8 +311,9 @@ const handleQuery = async () => {
   if (queryCourseNo.value.trim()) {
     loading.value = true;
     try {
-      const res = await api.post("/score/query", { courseNo: queryCourseNo.value.trim() });
-      list.value = res.data;
+      const res = await api.post("/score/query", { courseNo: queryCourseNo.value.trim(), page: currentPage.value, pageSize: pageSize.value });
+      list.value = res.data.records;
+      total.value = res.data.total;
     } catch { ElMessage.error("查询失败") }
     finally { loading.value = false }
     return;
@@ -319,8 +321,9 @@ const handleQuery = async () => {
   if (queryKeyword.value.trim()) {
     loading.value = true;
     try {
-      const res = await api.post("/score/search", { keyword: queryKeyword.value.trim() });
-      list.value = res.data;
+      const res = await api.post("/score/search", { keyword: queryKeyword.value.trim(), page: currentPage.value, pageSize: pageSize.value });
+      list.value = res.data.records;
+      total.value = res.data.total;
     } catch { ElMessage.error("搜索失败") }
     finally { loading.value = false }
     return;

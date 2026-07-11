@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.entity;
+package com.studentmanagement.entity;
 
 public class LoginResponse {
     private boolean success;

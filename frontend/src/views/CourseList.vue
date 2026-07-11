@@ -158,7 +158,8 @@ const handleSearch = async () => {
   loading.value = true;
   try {
     const res = await api.post("/course/search", { keyword: searchKeyword.value.trim() });
-    list.value = res.data;
+      list.value = res.data.records;
+      total.value = res.data.total;
   } catch { ElMessage.error("搜索失败") }
   finally { loading.value = false }
 };

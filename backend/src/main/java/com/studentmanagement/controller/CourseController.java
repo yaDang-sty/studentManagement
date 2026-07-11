@@ -1,4 +1,4 @@
-﻿package com.studentmanagement.controller;
+package com.studentmanagement.controller;
 
 import com.studentmanagement.entity.PageResult;
 import com.studentmanagement.entity.Course;
@@ -37,7 +37,7 @@ public class CourseController {
     @PostMapping("/create")
     public ResponseEntity<?> create(@Valid @RequestBody Course course) {
         if (courseService.existsByCourseNo(course.getCourseNo())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "璇剧▼缂栧彿宸插瓨鍦?));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("message", "课程编号已存在"));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(courseService.save(course));
     }
@@ -46,7 +46,7 @@ public class CourseController {
     public ResponseEntity<?> update(@Valid @RequestBody Course course) {
         try {
             Long id = course.getId();
-            if (id == null) return ResponseEntity.badRequest().body(Map.of("message", "缂哄皯璇剧▼ID"));
+            if (id == null) return ResponseEntity.badRequest().body(Map.of("message", "缺少课程ID"));
             return ResponseEntity.ok(courseService.update(id, course));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", e.getMessage()));
@@ -57,9 +57,9 @@ public class CourseController {
     public ResponseEntity<?> delete(@RequestBody Map<String, Long> body) {
         try {
             courseService.deleteById(body.get("id"));
-            return ResponseEntity.ok(Map.of("message", "鍒犻櫎鎴愬姛"));
+            return ResponseEntity.ok(Map.of("message", "删除成功"));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "璇剧▼涓嶅瓨鍦?));
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("message", "课程不存在"));
         }
     }
 
