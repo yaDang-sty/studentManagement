@@ -73,6 +73,16 @@ public class ScoreService {
         return new PageResult<>(p.getContent(), p.getTotalElements(), page, pageSize);
     }
 
+    public PageResult<Score> findByStudentNoAndSemester(String studentNo, String semester, int page, int pageSize) {
+        Page<Score> p;
+        if (semester != null && !semester.trim().isEmpty()) {
+            p = scoreRepository.findByStudentNoAndSemester(studentNo, semester.trim(), PageRequest.of(page - 1, pageSize));
+        } else {
+            p = scoreRepository.findByStudentNo(studentNo, PageRequest.of(page - 1, pageSize));
+        }
+        return new PageResult<>(p.getContent(), p.getTotalElements(), page, pageSize);
+    }
+
     public PageResult<Score> findByCourseNo(String courseNo, int page, int pageSize) {
         Page<Score> p = scoreRepository.findByCourseNo(courseNo, PageRequest.of(page - 1, pageSize));
         return new PageResult<>(p.getContent(), p.getTotalElements(), page, pageSize);

@@ -52,7 +52,7 @@ public class ScoreController {
         }
     }
 
-    
+
     @PostMapping("/searchMultiple")
     public ResponseEntity<PageResult<Score>> searchMultiple(@RequestBody Map<String, Object> body) {
         String studentName = (String) body.get("studentName");
@@ -74,15 +74,19 @@ public class ScoreController {
     public ResponseEntity<?> query(@RequestBody Map<String, Object> body) {
         String studentNo = (String) body.get("studentNo");
         String courseNo = (String) body.get("courseNo");
+        String semester = (String) body.get("semester");
         int page = body.get("page") != null ? ((Number) body.get("page")).intValue() : 1;
         int pageSize = body.get("pageSize") != null ? ((Number) body.get("pageSize")).intValue() : 10;
         if (studentNo != null && !studentNo.isEmpty()) {
+            if (semester != null && !semester.trim().isEmpty()) {
+                return ResponseEntity.ok(scoreService.findByStudentNoAndSemester(studentNo, semester.trim(), page, pageSize));
+            }
             return ResponseEntity.ok(scoreService.findByStudentNo(studentNo, page, pageSize));
         }
         if (courseNo != null && !courseNo.isEmpty()) {
             return ResponseEntity.ok(scoreService.findByCourseNo(courseNo, page, pageSize));
         }
-        return ResponseEntity.badRequest().body(Map.of("message", "请提供学号或课程编号"));
+        return ResponseEntity.badRequest().body(Map.of("message", "??????????"));
     }
-}
 
+}

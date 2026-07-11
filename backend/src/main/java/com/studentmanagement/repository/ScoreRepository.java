@@ -18,6 +18,7 @@ public interface ScoreRepository extends JpaRepository<Score, Long>, JpaSpecific
     Page<Score> findByStudentNameContaining(String studentName, Pageable pageable);
     Page<Score> findByCourseNameContaining(String courseName, Pageable pageable);
     Page<Score> findByStudentNo(String studentNo, Pageable pageable);
+    Page<Score> findByStudentNoAndSemester(String studentNo, String semester, Pageable pageable);
     Page<Score> findByCourseNo(String courseNo, Pageable pageable);
     List<Score> findByStudentNo(String studentNo);
     List<Score> findByStudentNameContaining(String studentName);

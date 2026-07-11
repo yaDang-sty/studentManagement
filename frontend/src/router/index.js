@@ -7,6 +7,7 @@ import ScoreList from "../views/ScoreList.vue";
 import ScoreStats from "../views/ScoreStats.vue";
 import UserList from "../views/UserList.vue";
 import AccountList from "../views/AccountList.vue";
+import MyScores from "../views/MyScores.vue";
 
 const routes = [
   { path: "/", redirect: "/login" },
@@ -40,6 +41,12 @@ const routes = [
     name: "ScoreStats",
     component: ScoreStats,
     meta: { requiresAuth: true, roles: ["TECH_ADMIN", "BUSINESS_ADMIN", "VISITOR"] },
+  },
+  {
+    path: "/my-scores",
+    name: "MyScores",
+    component: MyScores,
+    meta: { requiresAuth: true },
   },
   {
     path: "/users",

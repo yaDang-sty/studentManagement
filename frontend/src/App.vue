@@ -7,7 +7,7 @@
           <el-menu-item v-if="hasRole('TECH_ADMIN','BUSINESS_ADMIN')" index="/student"><el-icon><User /></el-icon><span>学生管理</span></el-menu-item>
           <el-menu-item v-if="hasRole('TECH_ADMIN')" index="/dormitory"><el-icon><HomeFilled /></el-icon><span>宿舍管理</span></el-menu-item>
           <el-menu-item v-if="hasRole('TECH_ADMIN','BUSINESS_ADMIN')" index="/course"><el-icon><Reading /></el-icon><span>课程管理</span></el-menu-item>
-          <el-menu-item v-if="hasRole('TECH_ADMIN','BUSINESS_ADMIN','VISITOR')" index="/score"><el-icon><Edit /></el-icon><span>成绩管理</span></el-menu-item>
+          <el-sub-menu v-if="hasRole('TECH_ADMIN','BUSINESS_ADMIN','VISITOR')" index="/score-parent"><template #title><el-icon><Edit /></el-icon><span>成绩管理</span></template><el-menu-item index="/score"><el-icon><Edit /></el-icon><span>成绩维护</span></el-menu-item><el-menu-item index="/my-scores"><el-icon><Document /></el-icon><span>个人成绩查询</span></el-menu-item></el-sub-menu>
           <el-menu-item v-if="hasRole('TECH_ADMIN','BUSINESS_ADMIN','VISITOR')" index="/stats"><el-icon><TrendCharts /></el-icon><span>成绩统计</span></el-menu-item>
           <el-sub-menu v-if="hasRole('TECH_ADMIN')" index="/users-parent"><template #title><el-icon><Setting /></el-icon><span>权限管理</span></template><el-menu-item index="/users"><el-icon><User /></el-icon><span>角色维护</span></el-menu-item><el-menu-item index="/accounts"><el-icon><Key /></el-icon><span>登录账户维护</span></el-menu-item></el-sub-menu>
         </el-menu>
@@ -28,7 +28,7 @@
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { ElMessageBox } from "element-plus";
-import { User, HomeFilled, Reading, Edit, TrendCharts, Setting, Key } from "@element-plus/icons-vue";
+import { User, HomeFilled, Reading, Edit, TrendCharts, Setting, Key, Document } from "@element-plus/icons-vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -50,7 +50,8 @@ const pageTitle = computed(() => {
     "/student": "学生管理",
     "/dormitory": "宿舍管理",
     "/course": "课程管理",
-    "/score": "成绩管理",
+    "/score": "成绩维护",
+    "/my-scores": "个人成绩查询",
     "/stats": "成绩统计",
     "/users": "角色维护",
     "/accounts": "登录账户维护",
