@@ -22,4 +22,3 @@ public class LoginResponse {
     public StudentInfo getStudent() { return student; }
     public void setStudent(StudentInfo student) { this.student = student; }
 }
-

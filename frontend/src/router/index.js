@@ -5,6 +5,7 @@ import DormitoryList from "../views/DormitoryList.vue";
 import CourseList from "../views/CourseList.vue";
 import ScoreList from "../views/ScoreList.vue";
 import ScoreStats from "../views/ScoreStats.vue";
+import UserList from "../views/UserList.vue";
 
 const routes = [
   { path: "/", redirect: "/login" },
@@ -13,31 +14,37 @@ const routes = [
     path: "/student",
     name: "StudentList",
     component: StudentList,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ["TECH_ADMIN", "BUSINESS_ADMIN"] },
   },
   {
     path: "/dormitory",
     name: "DormitoryList",
     component: DormitoryList,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ["TECH_ADMIN"] },
   },
   {
     path: "/course",
     name: "CourseList",
     component: CourseList,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ["TECH_ADMIN", "BUSINESS_ADMIN"] },
   },
   {
     path: "/score",
     name: "ScoreList",
     component: ScoreList,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ["TECH_ADMIN", "BUSINESS_ADMIN", "VISITOR"] },
   },
   {
     path: "/stats",
     name: "ScoreStats",
     component: ScoreStats,
-    meta: { requiresAuth: true },
+    meta: { requiresAuth: true, roles: ["TECH_ADMIN", "BUSINESS_ADMIN", "VISITOR"] },
+  },
+  {
+    path: "/users",
+    name: "UserList",
+    component: UserList,
+    meta: { requiresAuth: true, roles: ["TECH_ADMIN"] },
   },
 ];
 
@@ -46,16 +53,32 @@ const router = createRouter({
   routes,
 });
 
-// 路由守卫
+// 路由守卫 - 权限控制
 router.beforeEach((to, from, next) => {
-  const user = localStorage.getItem("loginUser");
+  const userStr = localStorage.getItem("loginUser");
+  const user = userStr ? JSON.parse(userStr) : null;
+
   if (to.meta.requiresAuth && !user) {
     next("/login");
-  } else if (to.path === "/login" && user) {
-    next("/student");
-  } else {
-    next();
+    return;
   }
+
+  if (to.path === "/login" && user) {
+    next("/student");
+    return;
+  }
+
+  // 权限检查
+  if (to.meta.roles && user) {
+    const userType = user.userType || "VISITOR";
+    if (!to.meta.roles.includes(userType)) {
+      // 没有权限，跳转到首页
+      next("/score");
+      return;
+    }
+  }
+
+  next();
 });
 
 export default router;

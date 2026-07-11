@@ -26,5 +26,5 @@ public interface StudentRepository extends JpaRepository<Student, Long>, JpaSpec
     boolean existsByStudentNo(String studentNo);
     Optional<Student> findByStudentNoAndPassword(String studentNo, String password);
     Optional<Student> findByPhoneAndPassword(String phone, String password);
+    Optional<Student> findByStudentNo(String studentNo);
 }
-
