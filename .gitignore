@@ -1,0 +1,19 @@
+﻿# Node
+frontend/node_modules/
+frontend/package-lock.json
+
+# Maven / Java build
+backend/target/
+*.class
+*.jar
+*.war
+
+# Logs
+*.log
+
+# IDE - workspace is user-specific
+.idea/workspace.xml
+
+# Temp / OS
+.DS_Store
+Thumbs.db

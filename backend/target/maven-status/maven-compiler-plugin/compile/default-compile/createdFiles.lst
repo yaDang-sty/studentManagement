@@ -1,0 +1,8 @@
+com\shop\util\JwtUtil.class
+com\shop\entity\Score.class
+com\shop\service\ScoreService.class
+com\shop\repository\ScoreRepository.class
+com\shop\config\JwtAuthFilter.class
+com\shop\entity\PageResult.class
+com\shop\controller\ScoreController.class
+com\shop\config\JwtConfig.class
