@@ -52,6 +52,16 @@ public class ScoreController {
         }
     }
 
+    
+    @PostMapping("/searchMultiple")
+    public ResponseEntity<PageResult<Score>> searchMultiple(@RequestBody Map<String, Object> body) {
+        String studentName = (String) body.get("studentName");
+        String courseName = (String) body.get("courseName");
+        int page = body.get("page") != null ? ((Number) body.get("page")).intValue() : 1;
+        int pageSize = body.get("pageSize") != null ? ((Number) body.get("pageSize")).intValue() : 10;
+        return ResponseEntity.ok(scoreService.searchMultiple(studentName, courseName, page, pageSize));
+    }
+
     @PostMapping("/search")
     public ResponseEntity<PageResult<Score>> search(@RequestBody Map<String, Object> body) {
         String keyword = (String) body.get("keyword");

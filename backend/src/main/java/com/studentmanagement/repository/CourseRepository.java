@@ -4,12 +4,13 @@ import com.studentmanagement.entity.Course;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface CourseRepository extends JpaRepository<Course, Long> {
+public interface CourseRepository extends JpaRepository<Course, Long>, JpaSpecificationExecutor<Course> {
     Page<Course> findAll(Pageable pageable);
     Page<Course> findByCourseNameContaining(String courseName, Pageable pageable);
     Page<Course> findByTeacherContaining(String teacher, Pageable pageable);

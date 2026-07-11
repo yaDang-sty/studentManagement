@@ -3,24 +3,20 @@
     <!-- 搜索与操作栏 -->
     <el-card class="toolbar-card">
       <el-row :gutter="20" align="middle">
-        <el-col :span="8">
-          <el-input
-            v-model="searchKeyword"
-            placeholder="搜索课程名 / 教师 / 课程编号"
-            clearable
-            @keyup.enter="handleSearch"
-            @clear="loadList"
-          >
-            <template #prefix><el-icon><Search /></el-icon></template>
-          </el-input>
+        <el-col :span="6">
+          <el-input v-model="searchForm.courseName" placeholder="课程名称" clearable size="default" />
         </el-col>
-        <el-col :span="4">
+        <el-col :span="5">
+          <el-input v-model="searchForm.courseNo" placeholder="课程编号" clearable size="default" />
+        </el-col>
+        <el-col :span="5">
+          <el-input v-model="searchForm.teacher" placeholder="授课教师" clearable size="default" />
+        </el-col>
+        <el-col :span="8">
           <el-button type="primary" @click="handleSearch">
             <el-icon><Search /></el-icon> 搜索
           </el-button>
           <el-button @click="resetSearch">重置</el-button>
-        </el-col>
-        <el-col :span="12" class="text-right">
           <el-button type="success" @click="openAddDialog">
             <el-icon><Plus /></el-icon> 添加课程
           </el-button>
@@ -118,8 +114,13 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import api from "../api";
 
 const list = ref([]);
+const searchForm = reactive({
+  courseName: "",
+  courseNo: "",
+  teacher: "",
+});
 const loading = ref(false);
-const searchKeyword = ref("");
+
 const dialogVisible = ref(false);
 const isEdit = ref(false);
 const submitting = ref(false);
@@ -154,17 +155,24 @@ const loadList = async () => {
 };
 
 const handleSearch = async () => {
-  if (!searchKeyword.value.trim()) { loadList(); return }
+  const hasFilters = searchForm.courseName || searchForm.courseNo || searchForm.teacher;
+  if (!hasFilters) { loadList(); return }
   loading.value = true;
   try {
-    const res = await api.post("/course/search", { keyword: searchKeyword.value.trim() });
-      list.value = res.data.records;
-      total.value = res.data.total;
+    const res = await api.post("/course/searchMultiple", {
+      courseName: searchForm.courseName || "",
+      courseNo: searchForm.courseNo || "",
+      teacher: searchForm.teacher || "",
+      page: currentPage.value,
+      pageSize: pageSize.value
+    });
+    list.value = res.data.records;
+    total.value = res.data.total;
   } catch { ElMessage.error("搜索失败") }
   finally { loading.value = false }
 };
 
-const resetSearch = () => { searchKeyword.value = ""; currentPage.value = 1; loadList() };
+const resetSearch = () => { searchForm.courseName = ""; searchForm.courseNo = ""; searchForm.teacher = ""; currentPage.value = 1; loadList() };
 
 const openAddDialog = () => {
   isEdit.value = false;

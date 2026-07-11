@@ -58,6 +58,19 @@ public class StudentController {
         }
     }
 
+    
+    @PostMapping("/searchMultiple")
+    public ResponseEntity<PageResult<Student>> searchMultiple(@RequestBody Map<String, Object> body) {
+        String name = (String) body.get("name");
+        String studentNo = (String) body.get("studentNo");
+        String major = (String) body.get("major");
+        String grade = (String) body.get("grade");
+        String studentClass = (String) body.get("studentClass");
+        int page = body.get("page") != null ? ((Number) body.get("page")).intValue() : 1;
+        int pageSize = body.get("pageSize") != null ? ((Number) body.get("pageSize")).intValue() : 10;
+        return ResponseEntity.ok(studentService.searchMultiple(name, studentNo, major, grade, studentClass, page, pageSize));
+    }
+
     @PostMapping("/delete")
     public ResponseEntity<?> delete(@RequestBody Map<String, Long> body) {
         Long id = body.get("id");

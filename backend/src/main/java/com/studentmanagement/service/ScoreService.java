@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import jakarta.persistence.criteria.Predicate;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
 
@@ -43,6 +45,22 @@ public class ScoreService {
 
     public void deleteById(Long id) {
         scoreRepository.deleteById(id);
+    }
+
+    
+    public PageResult<Score> searchMultiple(String studentName, String courseName, int page, int pageSize) {
+        Specification<Score> spec = (root, query, cb) -> {
+            java.util.ArrayList<Predicate> predicates = new java.util.ArrayList<>();
+            if (studentName != null && !studentName.trim().isEmpty()) {
+                predicates.add(cb.like(root.get("studentName"), "%" + studentName.trim() + "%"));
+            }
+            if (courseName != null && !courseName.trim().isEmpty()) {
+                predicates.add(cb.like(root.get("courseName"), "%" + courseName.trim() + "%"));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        Page<Score> p = scoreRepository.findAll(spec, PageRequest.of(page - 1, pageSize));
+        return new PageResult<>(p.getContent(), p.getTotalElements(), page, pageSize);
     }
 
     public PageResult<Score> search(String keyword, int page, int pageSize) {

@@ -3,26 +3,26 @@
     <!-- 搜索与操作栏 -->
     <el-card class="toolbar-card">
       <el-row :gutter="20" align="middle">
-        <el-col :span="8">
-          <el-input
-            v-model="searchKeyword"
-            placeholder="搜索姓名 / 学号 / 专业 / 年级 / 班级"
-            clearable
-            @keyup.enter="handleSearch"
-            @clear="loadStudents"
-          >
-            <template #prefix>
-              <el-icon><Search /></el-icon>
-            </template>
-          </el-input>
+        <el-col :span="4">
+          <el-input v-model="searchForm.name" placeholder="姓名" clearable size="default" />
         </el-col>
         <el-col :span="4">
+          <el-input v-model="searchForm.studentNo" placeholder="学号" clearable size="default" />
+        </el-col>
+        <el-col :span="4">
+          <el-input v-model="searchForm.major" placeholder="专业" clearable size="default" />
+        </el-col>
+        <el-col :span="3">
+          <el-input v-model="searchForm.grade" placeholder="年级" clearable size="default" />
+        </el-col>
+        <el-col :span="4">
+          <el-input v-model="searchForm.studentClass" placeholder="班级" clearable size="default" />
+        </el-col>
+        <el-col :span="5">
           <el-button type="primary" @click="handleSearch">
             <el-icon><Search /></el-icon> 搜索
           </el-button>
           <el-button @click="resetSearch">重置</el-button>
-        </el-col>
-        <el-col :span="12" class="text-right">
           <el-button type="success" @click="openAddDialog">
             <el-icon><Plus /></el-icon> 添加学生
           </el-button>
@@ -180,7 +180,14 @@ import api from "../api";
 
 const students = ref([]);
 const loading = ref(false);
-const searchKeyword = ref("");
+const searchForm = reactive({
+  name: "",
+  studentNo: "",
+  major: "",
+  grade: "",
+  studentClass: "",
+});
+
 const dialogVisible = ref(false);
 const isEdit = ref(false);
 const submitting = ref(false);
@@ -220,16 +227,24 @@ const loadStudents = async () => {
 };
 
 const handleSearch = async () => {
-  if (!searchKeyword.value.trim()) {
+  const hasFilters = searchForm.name || searchForm.studentNo || searchForm.major || searchForm.grade || searchForm.studentClass;
+  if (!hasFilters) {
     loadStudents();
     return;
   }
   loading.value = true;
   try {
-    const res = await api.post("/students/search", {
-      keyword: searchKeyword.value.trim(),
+    const res = await api.post("/students/searchMultiple", {
+      name: searchForm.name || "",
+      studentNo: searchForm.studentNo || "",
+      major: searchForm.major || "",
+      grade: searchForm.grade || "",
+      studentClass: searchForm.studentClass || "",
+      page: currentPage.value,
+      pageSize: pageSize.value,
     });
-    students.value = res.data;
+    students.value = res.data.records;
+    total.value = res.data.total;
   } catch {
     ElMessage.error("搜索失败");
   } finally {
@@ -238,7 +253,11 @@ const handleSearch = async () => {
 };
 
 const resetSearch = () => {
-  searchKeyword.value = "";
+  searchForm.name = "";
+  searchForm.studentNo = "";
+  searchForm.major = "";
+  searchForm.grade = "";
+  searchForm.studentClass = "";
   currentPage.value = 1;
   loadStudents();
 };

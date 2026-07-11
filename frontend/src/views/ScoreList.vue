@@ -321,7 +321,7 @@ const handleQuery = async () => {
   if (queryKeyword.value.trim()) {
     loading.value = true;
     try {
-      const res = await api.post("/score/search", { keyword: queryKeyword.value.trim(), page: currentPage.value, pageSize: pageSize.value });
+      const res = await api.post("/score/searchMultiple", { studentName: queryKeyword.value.trim(), courseName: queryKeyword.value.trim(), page: currentPage.value, pageSize: pageSize.value });
       list.value = res.data.records;
       total.value = res.data.total;
     } catch { ElMessage.error("搜索失败") }

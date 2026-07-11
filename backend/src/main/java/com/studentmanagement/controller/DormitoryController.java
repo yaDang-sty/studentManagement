@@ -55,6 +55,17 @@ public class DormitoryController {
         }
     }
 
+    
+    @PostMapping("/searchMultiple")
+    public ResponseEntity<PageResult<Dormitory>> searchMultiple(@RequestBody Map<String, Object> body) {
+        String studentName = (String) body.get("studentName");
+        String building = (String) body.get("building");
+        String room = (String) body.get("room");
+        int page = body.get("page") != null ? ((Number) body.get("page")).intValue() : 1;
+        int pageSize = body.get("pageSize") != null ? ((Number) body.get("pageSize")).intValue() : 10;
+        return ResponseEntity.ok(dormitoryService.searchMultiple(studentName, building, room, page, pageSize));
+    }
+
     @PostMapping("/delete")
     public ResponseEntity<?> delete(@RequestBody Map<String, Long> body) {
         try {
